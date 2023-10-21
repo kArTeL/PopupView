@@ -376,7 +376,9 @@ public struct Popup<PopupContent: View>: ViewModifier {
                 return verticalPadding + (useSafeAreaInset ? 0 :  -safeAreaInsets.top)
             }
             if position.isVerticalCenter {
-                return (screenHeight - sheetContentRect.height)/2 - safeAreaInsets.top
+                let topOffset = (screenHeight - sheetContentRect.height)/2 - safeAreaInsets.top
+                return topOffset
+                - (useKeyboardSafeArea ? keyboardHeightHelper.keyboardHeight * keyboardOffset : 0)/3
             }
             if position.isBottom {
                 return screenHeight - sheetContentRect.height
@@ -384,7 +386,14 @@ public struct Popup<PopupContent: View>: ViewModifier {
                 - verticalPadding
                 - (useSafeAreaInset ? safeAreaInsets.bottom : 0)
                 - safeAreaInsets.top
-            }
+            } 
+//            var returnValue = screenHeight - sheetContentRect.height
+//            - (useKeyboardSafeArea ? keyboardHeightHelper.keyboardHeight * keyboardOffset : 0)
+//            - verticalPadding
+//            - (useSafeAreaInset ? safeAreaInsets.bottom : 0)
+//            - safeAreaInsets.top
+//            return returnValue
+            
         }
 
         if position.isTop {

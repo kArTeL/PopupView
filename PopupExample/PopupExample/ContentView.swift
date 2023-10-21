@@ -260,7 +260,7 @@ struct ContentView : View {
                 PopupBottomSecond(offset: $keyboardOffset)
             } customize: {
                 $0
-                    .position(.bottom)
+                    .position(.center)
                     .isOpaque(true)
                     .useKeyboardSafeArea(true)
                     .keyboardOffset(keyboardOffset)
