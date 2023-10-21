@@ -32,6 +32,7 @@ public struct Popup<PopupContent: View>: ViewModifier {
         self.horizontalPadding = params.type.horizontalPadding
         self.useSafeAreaInset = params.type.useSafeAreaInset
         self.useKeyboardSafeArea = params.useKeyboardSafeArea
+        self.keyboardOffset = params.keyboardOffset
         self.animation = params.animation
         self.dragToDismiss = params.dragToDismiss
         self.closeOnTap = params.closeOnTap
@@ -157,6 +158,8 @@ public struct Popup<PopupContent: View>: ViewModifier {
 
         /// move up for keyboardHeight when it is displayed
         var useKeyboardSafeArea: Bool = false
+        
+        var keyboardOffset = 1.0
 
         /// called when when dismiss animation starts
         var willDismissCallback: (DismissSource) -> () = {_ in}
@@ -194,6 +197,12 @@ public struct Popup<PopupContent: View>: ViewModifier {
             return params
         }
 
+        public func keyboardOffset(_ keyboardOffset: Double) -> PopupParameters {
+            var params = self
+            params.keyboardOffset = keyboardOffset
+            return params
+        }
+        
         /// Should allow dismiss by dragging - default is `true`
         public func dragToDismiss(_ dragToDismiss: Bool) -> PopupParameters {
             var params = self
@@ -326,6 +335,8 @@ public struct Popup<PopupContent: View>: ViewModifier {
     /// ... once hiding animation is finished remove popup from the memory using this flag
     var showContent: Bool
 
+    var keyboardOffset = 0.0
+    
     /// called when all the offsets are calculated, so everything is ready for animation
     var positionIsCalculatedCallback: () -> ()
 
@@ -369,7 +380,7 @@ public struct Popup<PopupContent: View>: ViewModifier {
             }
             if position.isBottom {
                 return screenHeight - sheetContentRect.height
-                - (useKeyboardSafeArea ? keyboardHeightHelper.keyboardHeight : 0)
+                - (useKeyboardSafeArea ? keyboardHeightHelper.keyboardHeight * keyboardOffset : 0)
                 - verticalPadding
                 - (useSafeAreaInset ? safeAreaInsets.bottom : 0)
                 - safeAreaInsets.top

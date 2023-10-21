@@ -86,9 +86,16 @@ struct PopupBottomFirst: View {
 }
 
 struct PopupBottomSecond: View {
-
+    @State var text = "Hola k asen cabrone"
+    @Binding var offset: Double
     var body: some View {
         VStack(spacing: 12) {
+            TextField("", text: $text, onEditingChanged: {_ in 
+                self.offset = 0.8
+            })
+            TextField("", text: $text, onEditingChanged: { _ in
+                self.offset = 1.0
+            })
             Image("chest")
                 .resizable()
                 .scaledToFit()
@@ -123,6 +130,7 @@ struct PopupBottomSecond: View {
         .background(Color.white.cornerRadius(20))
         .shadowedStyle()
     }
+    
 }
 
 
@@ -143,7 +151,7 @@ struct Popups_Previews: PreviewProvider {
         ZStack {
             Rectangle()
                 .ignoresSafeArea()
-            PopupBottomSecond()
+            PopupBottomSecond(offset: .constant(0.0))
         }
     }
 }

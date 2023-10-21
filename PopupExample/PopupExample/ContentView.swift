@@ -68,6 +68,8 @@ struct ContentView : View {
     @State var popups = PopupsState()
     @State var actionSheets = ActionSheetsState()
 
+    @State var keyboardOffset = 0.0
+    
     var body: some View {
         let commonView = createPopupsList()
 
@@ -255,13 +257,16 @@ struct ContentView : View {
             }
 
             .popup(isPresented: $popups.showingBottomSecond) {
-                PopupBottomSecond()
+                PopupBottomSecond(offset: $keyboardOffset)
             } customize: {
                 $0
-                    .type(.floater(verticalPadding: 0, useSafeAreaInset: false))
                     .position(.bottom)
+                    .isOpaque(true)
+                    .useKeyboardSafeArea(true)
+                    .keyboardOffset(keyboardOffset)
+                    .closeOnTap(false)
                     .closeOnTapOutside(true)
-                    .backgroundColor(.black.opacity(0.4))
+                    .backgroundColor(.black.opacity(0.3))
             }
 
 #if os(iOS)
